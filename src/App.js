@@ -1,25 +1,40 @@
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
+import Login from "./components/login.component";
+import SignUp from "./components/sign-up.component";
+import Home from './js/home';
+import CreateCourse from './js/create-course';
+import MarkAttendance from './js/mark-attendance';
+
+function App(props) {
+	const [user, setUser] = useState('');
+
+	useEffect(() => {
+		async function init() {
+			const data = await sessionStorage.getItem('userDetails');
+			setUser(JSON.parse(data));
+		}
+		init();
+	}, []);
+
+	return (
+		<Router>
+			<div className="App">
+				<Switch>
+					<Route exact path='/' component={Login} />
+					<Route path="/login" component={Login} />
+					<Route path="/sign-up" component={SignUp} />
+					<Route path="/home" component={Home} />
+					<Route path="/create-course" component={CreateCourse} />
+					<Route path="/mark-attendance" component={MarkAttendance} />
+				</Switch>
+			</div>
+		</Router>
+	);
 }
 
 export default App;
